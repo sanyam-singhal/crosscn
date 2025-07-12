@@ -74,7 +74,7 @@ module.exports = {
         md: '0px 4px 6px rgba(0,0,0,0.1)',
         lg: '0px 10px 15px rgba(0,0,0,0.1)',
         xl: '0px 20px 25px rgba(0,0,0,0.1)',
-        '2xl':'0px 25px 50px rgba(0,0,0,0.25)',
+        '2xl':'0px 25px 50px rgba(0,0,0,0.25)'
       },
       borderRadius: {
         none: '0px',
@@ -119,5 +119,24 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss/plugin')(function ({ addUtilities }) {
+      addUtilities({
+        '.shadow-sm-native': {
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.20,
+          shadowRadius: 1.41,
+          elevation: 2,
+        },
+        '.shadow-md-native': {
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.23,
+          shadowRadius: 2.62,
+          elevation: 4,
+        },
+      });
+    }),
+  ],
 };
