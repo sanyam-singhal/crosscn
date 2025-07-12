@@ -1,86 +1,139 @@
 import { useColorScheme } from "nativewind";
 import React from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Button } from "../components/Button";
+import { Input } from "../components/Input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../components/Card";
+import { Badge } from "../components/Badge";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../components/Avatar";
+import { Feather } from "@expo/vector-icons";
 
 const App = () => {
   const { colorScheme, setColorScheme } = useColorScheme();
   const isDark = colorScheme === "dark";
-  
+
   const toggleColorScheme = () => {
     setColorScheme(colorScheme === "light" ? "dark" : "light");
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-background dark:bg-background-dark">
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        className="bg-background dark:bg-background-dark p-4"
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 32 }}
+        className="p-4"
       >
-        {/* Header */}
-        <Text className="text-3xl font-bold text-foreground dark:text-foreground-dark text-center mb-6">
-          Design System Demo
-        </Text>
-
-        {/* Card Example */}
-        <View className="bg-card dark:bg-card-dark rounded-lg shadow-md border border-border p-6 mb-6">
-          <Text className="text-xl font-medium text-card-foreground dark:text-card-foreground-dark mb-3">
-            Card Title
+        <View className="flex-row justify-between items-center mb-6">
+          <Text className="text-3xl font-bold text-foreground dark:text-foreground-dark">
+            Component Library
           </Text>
-          <Text className="text-base text-foreground-subtle dark:text-foreground-subtle-dark">
-            This card demonstrates background, border, rounded corners, and shadow utilities.
-          </Text>
-        </View>
-
-        {/* Input Example */}
-        <TextInput
-          placeholder="Type here…"
-          placeholderTextColor="#439A97"
-          className="bg-input dark:bg-input-dark text-foreground dark:text-foreground-dark border border-border rounded-md px-4 py-2 mb-6"
-        />
-
-        {/* Button Example */}
-        <Pressable
-          className="bg-primary dark:bg-primary-dark rounded-lg px-5 py-3 shadow-lg mb-6"
-          onPress={() => {}}
-        >
-          <Text className="text-primary-foreground dark:text-primary-foreground-dark text-center font-semibold">
-            Primary Action
-          </Text>
-        </Pressable>
-
-        {/* Activity Indicator */}
-        <View className="items-center mb-6">
-          <ActivityIndicator
-            size="large"
-            color={isDark ? "#12B28C" : "#04695C"}
+          <Button
+            variant="ghost"
+            size="sm"
+            onPress={toggleColorScheme}
+            label={isDark ? "Light Mode" : "Dark Mode"}
           />
         </View>
 
-        {/* Toggle Dark Mode */}
-        <Pressable
-          onPress={() => toggleColorScheme()}  // Toggles between light & dark :contentReference[oaicite:5]{index=5}
-          className="bg-secondary dark:bg-secondary-dark rounded-full px-4 py-2 mb-6 transition duration-300 ease-in-out"
-        >
-          <Text className="text-secondary-foreground dark:text-secondary-foreground-dark text-center">
-            Switch to {isDark ? "Light" : "Dark"} Mode
-          </Text>
-        </Pressable>
+        {/* Card */}
+        <Section title="Card">
+          <Card>
+            <CardHeader>
+              <CardTitle>Card Title</CardTitle>
+              <CardDescription>
+                This is a description for the card.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Text className="text-foreground dark:text-foreground-dark">
+                Card content goes here. You can put any React Native components
+                inside.
+              </Text>
+            </CardContent>
+            <CardFooter>
+              <Button label="Action" />
+            </CardFooter>
+          </Card>
+        </Section>
 
-        {/* Footer Text */}
-        <Text className="text-sm text-foreground-subtle dark:text-foreground-subtle-dark text-center opacity-50">
-          © 2025 CrossCN Demo
-        </Text>
+        {/* Buttons */}
+        <Section title="Buttons">
+          <View className="flex-row flex-wrap gap-2">
+            <Button label="Default" />
+            <Button label="Destructive" variant="destructive" />
+            <Button label="Outline" variant="outline" />
+            <Button label="Secondary" variant="secondary" />
+            <Button label="Ghost" variant="ghost" />
+            <Button label="Link" variant="link" />
+            <Button label="Loading" loading />
+            <Button label="Disabled" disabled />
+          </View>
+        </Section>
+
+        {/* Inputs */}
+        <Section title="Inputs">
+          <Input placeholder="Standard Input" />
+          <View className="h-4" />
+          <Input placeholder="Input with Icon" iconLeft={<Feather name="search" size={16} />} />
+          <View className="h-4" />
+          <Input placeholder="Error State" error="This field is required." />
+        </Section>
+
+        {/* Badges */}
+        <Section title="Badges">
+          <View className="flex-row flex-wrap gap-2">
+            <Badge label="Default" />
+            <Badge label="Secondary" variant="secondary" />
+            <Badge label="Destructive" variant="destructive" />
+            <Badge label="Outline" variant="outline" />
+          </View>
+        </Section>
+
+        {/* Avatars */}
+        <Section title="Avatars">
+          <View className="flex-row items-center gap-4">
+            <Avatar>
+              <AvatarImage source={{ uri: "https://github.com/shadcn.png" }} />
+              <AvatarFallback>
+                <Text>CN</Text>
+              </AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarFallback>
+                <Text>JD</Text>
+              </AvatarFallback>
+            </Avatar>
+          </View>
+        </Section>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const Section = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <View className="mb-8">
+    <Text className="text-xl font-semibold text-foreground dark:text-foreground-dark mb-4">
+      {title}
+    </Text>
+    {children}
+  </View>
+);
 
 export default App;
