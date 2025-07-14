@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/Tabs';
-import { DemoPage } from '../components/DemoPage';
+import { DemoPage } from './DemoPage';
 
 const TabsDemo = () => {
   const [value, setValue] = React.useState('account');

@@ -7,7 +7,7 @@ const Card = React.forwardRef<View, React.ComponentPropsWithoutRef<typeof View>>
     <View
       ref={ref}
       className={twMerge(
-        "rounded-lg border border-border bg-card text-card-foreground shadow-sm",
+        "rounded-lg border border-border bg-card text-card-foreground shadow-sm dark:border-border-dark dark:bg-card-dark dark:text-card-foreground-dark",
         className
       )}
       {...props}
@@ -35,7 +35,7 @@ const CardTitle = React.forwardRef<
   <Text
     ref={ref}
     className={twMerge(
-      "text-2xl font-semibold leading-none tracking-tight text-card-foreground",
+      "text-2xl font-semibold leading-none tracking-tight text-card-foreground dark:text-card-foreground-dark",
       className
     )}
     {...props}
@@ -49,7 +49,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <Text
     ref={ref}
-    className={twMerge("text-sm text-muted-foreground", className)}
+    className={twMerge("text-sm text-muted-foreground dark:text-muted-foreground-dark", className)}
     {...props}
   />
 ));

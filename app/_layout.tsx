@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { Stack, useSegments } from 'expo-router';
-import { View } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { useColorScheme } from 'nativewind';
 import { Sidebar } from '../components/Sidebar';
 import { Feather } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-reanimated';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ToastProvider } from '../components/Toast';
-import { ThemeToggle } from '../components/ThemeToggle';
 
 import '../global.css';
 
@@ -23,41 +21,42 @@ const navItems = [
   { name: 'Tabs', href: '/tabs-demo', icon: <Feather name="folder" size={20} /> },
 ];
 
-function RootLayoutNav() {
+export default function RootLayout() {
+  let { colorScheme, toggleColorScheme } = useColorScheme();
+  console.log(colorScheme);
+
   const segments = useSegments();
   const activeHref = `/${segments[segments.length - 1]}`;
 
-  return (
-    <View className="flex-1 flex-row bg-background">
-      <Sidebar items={navItems} activeHref={activeHref} />
-      <View className="flex-1">
-        <ThemeToggle />
-        <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="buttons" />
-            <Stack.Screen name="inputs" />
-            <Stack.Screen name="checkbox" />
-            <Stack.Screen name="toast" />
-            <Stack.Screen name="tabs-demo" />
-        </Stack>
-      </View>
-    </View>
-  );
-}
-
-export default function RootLayout() {
-  // Subscribe the entire app to theme changes from the root.
-  useColorScheme();
-
+  
   useEffect(() => {
     SplashScreen.hideAsync();
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }} className="bg-background">
       <ToastProvider>
-        <RootLayoutNav />
+        <View className="flex-1 flex-row bg-background dark:bg-background-dark">
+          <Sidebar items={navItems} activeHref={activeHref} />
+          <View className="flex-1">
+          <Pressable
+              onPress={() => toggleColorScheme()}
+              className='absolute top-4 right-4 z-10 h-12 w-12 items-center justify-center rounded-full bg-card shadow-lg'>
+              <Feather
+                name={colorScheme === 'dark' ? 'sun' : 'moon'}
+                size={24}
+                className='text-foreground'
+              />
+            </Pressable>
+            <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="buttons" />
+                <Stack.Screen name="inputs" />
+                <Stack.Screen name="checkbox" />
+                <Stack.Screen name="toast" />
+                <Stack.Screen name="tabs-demo" />
+            </Stack>
+          </View>
+        </View>
       </ToastProvider>
-    </GestureHandlerRootView>
   );
 }

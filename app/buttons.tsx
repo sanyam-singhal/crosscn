@@ -3,7 +3,7 @@ import { Button } from '../components/Button';
 import { IconButton } from '../components/IconButton';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/Card';
 import { Feather } from '@expo/vector-icons';
-import { DemoPage } from '../components/DemoPage';
+import { DemoPage } from './DemoPage';
 
 const DemoSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <Card className="mb-6">

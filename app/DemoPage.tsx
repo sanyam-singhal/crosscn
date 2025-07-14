@@ -9,11 +9,11 @@ interface DemoPageProps {
 
 const DemoPage = ({ title, description, children }: DemoPageProps) => {
   return (
-    <ScrollView className="bg-background flex-1">
+    <ScrollView className="bg-background dark:bg-background-dark flex-1">
       <View className="p-4 lg:p-6">
         <View className="mb-4">
-          <Text className="text-3xl font-bold tracking-tight text-foreground">{title}</Text>
-          <Text className="mt-2 text-lg text-muted-foreground">{description}</Text>
+          <Text className="text-3xl font-bold tracking-tight text-foreground dark:text-foreground-dark">{title}</Text>
+          <Text className="mt-2 text-lg text-muted-foreground dark:text-muted-foreground-dark">{description}</Text>
         </View>
         <View>{children}</View>
       </View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Checkbox } from '../components/Checkbox';
-import { DemoPage } from '../components/DemoPage';
+import { DemoPage } from './DemoPage';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/Card';
 
 const DemoSection = ({ title, children }: { title: string; children: React.ReactNode }) => (

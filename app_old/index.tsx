@@ -1,5 +1,5 @@
-import { useColorScheme } from "nativewind";
-import React from "react";
+import React, { useState } from "react";
+import { colorScheme } from "nativewind";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../components/Button";
@@ -38,9 +38,10 @@ import {
 } from "../components/Avatar";
 import { Feather } from "@expo/vector-icons";
 
+
 const App = () => {
-  const { colorScheme, setColorScheme } = useColorScheme();
-  const isDark = colorScheme === "dark";
+  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
+  const isDark = currentTheme === "dark";
 
   const [isChecked, setIsChecked] = React.useState(false);
   const [radioValue, setRadioValue] = React.useState("option-one");
@@ -68,7 +69,9 @@ const App = () => {
   }, []);
 
   const toggleColorScheme = () => {
-    setColorScheme(colorScheme === "light" ? "dark" : "light");
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+    setCurrentTheme(newTheme);
+    colorScheme.set(newTheme);
   };
 
   return (
@@ -404,4 +407,3 @@ const Section = ({
 );
 
 export default App;
-
