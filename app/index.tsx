@@ -404,4 +404,3 @@ const Section = ({
 );
 
 export default App;
-

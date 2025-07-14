@@ -8,7 +8,7 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import { useColorScheme } from "nativewind";
-import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import colors from "tailwindcss/colors";
 
 interface SwitchProps {
@@ -16,12 +16,18 @@ interface SwitchProps {
   onCheckedChange: (checked: boolean) => void;
   disabled?: boolean;
   size?: "sm" | "default" | "lg";
+  /** Extra classes for the Pressable wrapper */
+  className?: string;
+  /** Extra classes for the track */
+  trackClassName?: string;
+  /** Extra classes for the thumb */
+  thumbClassName?: string;
 }
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   SwitchProps
->(({ checked, onCheckedChange, disabled, size = "default" }, ref) => {
+>(({ checked, onCheckedChange, disabled, size = "default", className, trackClassName, thumbClassName }, ref) => {
   const { colorScheme } = useColorScheme();
   const progress = useSharedValue(checked ? 1 : 0);
 
@@ -71,7 +77,7 @@ const Switch = React.forwardRef<
       ref={ref}
       onPress={handlePress}
       disabled={disabled}
-      className={clsx("justify-center", { "opacity-70": disabled })}
+      className={twMerge("justify-center", disabled && "opacity-70", className)}
       style={{
         width: trackWidth,
         height: trackHeight,
@@ -87,7 +93,7 @@ const Switch = React.forwardRef<
           },
           animatedTrackStyle,
         ]}
-        className="justify-center"
+        className={twMerge("justify-center", trackClassName)}
       >
         <Animated.View
           style={[
@@ -99,7 +105,7 @@ const Switch = React.forwardRef<
             },
             animatedThumbStyle,
           ]}
-          className="bg-white shadow-sm-native"
+          className={twMerge("bg-white shadow-sm-native", thumbClassName)}
         />
       </Animated.View>
     </Pressable>

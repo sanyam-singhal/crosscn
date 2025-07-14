@@ -7,20 +7,25 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
-import { clsx } from "clsx";
+
 
 interface CheckboxProps {
   checked: boolean | "indeterminate";
   onCheckedChange: (checked: boolean) => void;
   label?: string;
   disabled?: boolean;
+  /** Extra classes for checkbox box */
   className?: string;
+  /** Extra classes for wrapper Pressable */
+  wrapperClassName?: string;
+  /** Extra classes for label text */
+  labelClassName?: string;
 }
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   CheckboxProps
->(({ checked, onCheckedChange, label, disabled, className }, ref) => {
+>(({ checked, onCheckedChange, label, disabled, className, wrapperClassName, labelClassName }, ref) => {
   const scale = useSharedValue(checked === true ? 1 : 0);
 
   React.useEffect(() => {
@@ -45,22 +50,16 @@ const Checkbox = React.forwardRef<
       ref={ref}
       onPress={handlePress}
       disabled={disabled}
-      className="flex-row items-center gap-3"
+      className={twMerge("flex-row items-center gap-3", wrapperClassName)}
       hitSlop={10}
     >
       <View
         className={twMerge(
-          clsx(
-            "h-5 w-5 rounded border-2 justify-center items-center",
-            {
-              "border-primary bg-primary":
-                checked === true || checked === "indeterminate",
-              "border-muted-foreground/50 bg-transparent": !checked,
-              "border-muted-foreground/30 bg-muted-foreground/30 opacity-50":
-                disabled,
-            },
-            className
-          )
+          "h-5 w-5 rounded border-2 justify-center items-center",
+          (checked === true || checked === "indeterminate") && "border-primary bg-primary",
+          !checked && "border-muted-foreground/50 bg-transparent",
+          disabled && "border-muted-foreground/30 bg-muted-foreground/30 opacity-50",
+          className
         )}
       >
         {checked === "indeterminate" ? (
@@ -73,9 +72,7 @@ const Checkbox = React.forwardRef<
       </View>
       {label && (
         <Text
-          className={clsx("text-foreground", {
-            "opacity-50": disabled,
-          })}
+          className={twMerge("text-foreground", disabled && "opacity-50", labelClassName)}
         >
           {label}
         </Text>

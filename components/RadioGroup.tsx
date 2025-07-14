@@ -1,11 +1,12 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 import { Pressable, View, Text } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { clsx } from "clsx";
+
 
 // --- Context ---
 interface RadioGroupContextProps {
@@ -52,16 +53,23 @@ const RadioGroup = React.forwardRef<View, RadioGroupProps>(
 RadioGroup.displayName = "RadioGroup";
 
 // --- RadioGroupItem ---
-interface RadioGroupItemProps
-  extends React.ComponentPropsWithoutRef<typeof Pressable> {
+interface RadioGroupItemProps extends React.ComponentPropsWithoutRef<typeof Pressable> {
   value: string;
   label?: string;
+  /** Extra classes for the indicator circle */
+  indicatorClassName?: string;
+  /** Extra classes applied to indicator when selected */
+  selectedIndicatorClassName?: string;
+  /** Extra classes for the filled dot */
+  dotClassName?: string;
+  /** Extra classes for the label text */
+  labelClassName?: string;
 }
 
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   RadioGroupItemProps
->(({ value, label, ...props }, ref) => {
+>(({ value, label, indicatorClassName, selectedIndicatorClassName, dotClassName, labelClassName, className, ...props }, ref) => {
   const {
     value: selectedValue,
     onValueChange,
@@ -93,32 +101,29 @@ const RadioGroupItem = React.forwardRef<
       ref={ref}
       onPress={handlePress}
       disabled={itemDisabled}
-      className="flex-row items-center gap-3"
+      className={twMerge("flex-row items-center gap-3", itemDisabled && "opacity-50", className)}
       hitSlop={10}
       role="radio"
       aria-checked={isSelected}
       {...props}
     >
       <View
-        className={clsx(
+        className={twMerge(
           "h-5 w-5 rounded-full border-2 justify-center items-center",
-          {
-            "border-primary": isSelected,
-            "border-muted-foreground/50": !isSelected,
-            "opacity-50": itemDisabled,
-          }
+          isSelected ? "border-primary" : "border-muted-foreground/50",
+          itemDisabled && "opacity-50",
+          indicatorClassName,
+          isSelected && selectedIndicatorClassName
         )}
       >
         <Animated.View
           style={animatedStyle}
-          className="h-2.5 w-2.5 rounded-full bg-primary"
+          className={twMerge("h-2.5 w-2.5 rounded-full bg-primary", dotClassName)}
         />
       </View>
       {label && (
         <Text
-          className={clsx("text-foreground", {
-            "opacity-50": itemDisabled,
-          })}
+          className={twMerge("text-foreground", itemDisabled && "opacity-50", labelClassName)}
         >
           {label}
         </Text>

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Pressable, ScrollView } from "react-native";
 import { twMerge } from "tailwind-merge";
-import { clsx } from "clsx";
+
 
 // --- Context ---
 interface TabsContextProps {
@@ -23,19 +23,18 @@ const useTabsContext = () => {
 interface TabsProps extends React.ComponentPropsWithoutRef<typeof View> {
   value: string;
   onValueChange: (value: string) => void;
+  className?: string;
 }
 
 const Tabs = React.forwardRef<View, TabsProps>(
-  ({ value, onValueChange, children, ...props }, ref) => {
+  ({ value, onValueChange, className, children, ...props }, ref) => {
     const contextValue = React.useMemo(
       () => ({ value, onValueChange }),
       [value, onValueChange]
     );
     return (
       <TabsContext.Provider value={contextValue}>
-        <View ref={ref} {...props}>
-          {children}
-        </View>
+        <View ref={ref} className={className} {...props}>{children}</View>
       </TabsContext.Provider>
     );
   }
@@ -84,19 +83,17 @@ const TabsTrigger = React.forwardRef<
       onPress={() => onValueChange(value)}
       disabled={props.disabled}
       className={twMerge(
-        clsx(
-          "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-          { "bg-background text-foreground shadow-sm-native": isActive }
-        ),
+        "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        isActive && "bg-background text-foreground shadow-sm-native",
         className
       )}
       {...props}
     >
       <Text
-        className={clsx("text-sm font-medium", {
-          "text-foreground": isActive,
-          "text-muted-foreground": !isActive,
-        })}
+        className={twMerge(
+          "text-sm font-medium",
+          isActive ? "text-foreground" : "text-muted-foreground"
+        )}
       >
         {children}
       </Text>
