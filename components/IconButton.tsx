@@ -56,13 +56,14 @@ interface IconButtonProps
     VariantProps<typeof iconButtonVariants> {
   icon: React.ReactElement<{ className?: string }>;
   loading?: boolean;
+  iconClassName?: string;
 }
 
 const IconButton = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   IconButtonProps
->(({ className, variant, size, icon, loading, ...props }, ref) => {
-  const iconClassName = twMerge(clsx(iconVariants({ variant, size })));
+>(({ className, variant, size, icon, loading, iconClassName: customIconClassName, ...props }, ref) => {
+  const iconClassName = twMerge(clsx(iconVariants({ variant, size })), customIconClassName);
 
   return (
     <Pressable

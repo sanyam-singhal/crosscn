@@ -58,12 +58,14 @@ interface ButtonProps
     VariantProps<typeof buttonVariants> {
   label: string;
   loading?: boolean;
+  textClassName?: string;
 }
 
 const Button = ({
   label,
   loading,
   className,
+  textClassName,
   variant,
   size,
   ...props
@@ -77,10 +79,10 @@ const Button = ({
       {loading ? (
         <ActivityIndicator
           size="small"
-          className={twMerge(clsx(buttonTextVariants({ variant, size })))}
+          className={twMerge(clsx(buttonTextVariants({ variant, size })), textClassName)}
         />
       ) : (
-        <Text className={twMerge(clsx(buttonTextVariants({ variant, size })))}>
+        <Text className={twMerge(clsx(buttonTextVariants({ variant, size })), textClassName)}>
           {label}
         </Text>
       )}

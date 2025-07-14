@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 
 interface InputProps extends React.ComponentPropsWithoutRef<typeof TextInput> {
+  disabled?: boolean;
   error?: string;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
@@ -18,7 +19,7 @@ interface InputProps extends React.ComponentPropsWithoutRef<typeof TextInput> {
 }
 
 const Input = React.forwardRef<TextInput, InputProps>(
-  ({ className, error, iconLeft, iconRight, containerClassName, iconLeftWrapperClassName, iconRightWrapperClassName, errorClassName, ...props }, ref) => {
+  ({ className, error, iconLeft, iconRight, containerClassName, iconLeftWrapperClassName, iconRightWrapperClassName, errorClassName, disabled, ...props }, ref) => {
     const inputClasses = twMerge(
       "h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
       error && "border-destructive",
@@ -34,7 +35,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             {iconLeft}
           </View>
         )}
-        <TextInput ref={ref} className={inputClasses} {...props} />
+        <TextInput ref={ref} className={inputClasses} editable={!disabled} {...props} />
         {iconRight && (
           <View className={twMerge("absolute right-3 top-1/2 -translate-y-1/2", iconRightWrapperClassName)}>
             {iconRight}
