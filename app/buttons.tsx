@@ -1,29 +1,35 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
-import { Button } from '../../components/Button';
-import { IconButton } from '../../components/IconButton';
-import { Card, CardHeader, CardTitle, CardContent } from '../../components/Card';
+import { Button } from '../components/Button';
+import { IconButton } from '../components/IconButton';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/Card';
 import { Feather } from '@expo/vector-icons';
+import { DemoPage } from '../components/DemoPage';
 
 const DemoSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <Card className="mb-6">
     <CardHeader>
       <CardTitle>{title}</CardTitle>
     </CardHeader>
-    <CardContent className="flex-row flex-wrap gap-2">{children}</CardContent>
+    <CardContent className="flex-row flex-wrap items-center gap-2">{children}</CardContent>
   </Card>
 );
 
 const ButtonsDemo = () => {
   return (
-    <ScrollView className="p-4">
-      <DemoSection title="Button Variants">
+    <DemoPage
+      title="Buttons"
+      description="Displays a button or a component that looks like a button."
+    >
+      <DemoSection title="Variants">
         <Button label="Default" />
         <Button label="Outline" variant="outline" />
         <Button label="Destructive" variant="destructive" />
         <Button label="Secondary" variant="secondary" />
         <Button label="Ghost" variant="ghost" />
         <Button label="Link" variant="link" />
+      </DemoSection>
+
+      <DemoSection title="States">
         <Button label="Loading" loading />
         <Button label="Custom Style" className="bg-purple-600" textClassName="text-white" />
       </DemoSection>
@@ -37,7 +43,7 @@ const ButtonsDemo = () => {
         <IconButton icon={<Feather name="loader" />} loading />
         <IconButton icon={<Feather name="trash" />} variant="destructive" iconClassName="text-red-500" />
       </DemoSection>
-    </ScrollView>
+    </DemoPage>
   );
 };
 

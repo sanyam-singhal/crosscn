@@ -3,13 +3,13 @@ import React, {
   createContext,
   useContext,
   useCallback,
+  useRef,
 } from "react";
 import { View, Text, Pressable, Platform } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-  withSequence,
   runOnJS,
 } from "react-native-reanimated";
 import { twMerge } from "tailwind-merge";
@@ -89,8 +89,13 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const [toast, setToast] = useState<ToastProps | null>(null);
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(-50);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const hide = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     translateY.value = withTiming(-50, { duration: 200 });
     opacity.value = withTiming(0, { duration: 200 }, () => {
       runOnJS(setToast)(null);
@@ -99,7 +104,13 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
 
   const show = useCallback(
     (props: ToastProps) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+
       setToast(props);
+
       if (Platform.OS !== "web") {
         Haptics.notificationAsync(
           props.variant === "destructive"
@@ -107,20 +118,15 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
             : Haptics.NotificationFeedbackType.Success
         );
       }
-      translateY.value = withSequence(
-        withTiming(0, { duration: 300 }),
-        withTiming(0, { duration: 3000 }), // Hold duration
-        withTiming(-50, { duration: 200 })
-      );
-      opacity.value = withSequence(
-        withTiming(1, { duration: 300 }),
-        withTiming(1, { duration: 3000 }), // Hold duration
-        withTiming(0, { duration: 200 }, () => {
-          runOnJS(setToast)(null);
-        })
-      );
+
+      translateY.value = withTiming(0, { duration: 300 });
+      opacity.value = withTiming(1, { duration: 300 });
+
+      timeoutRef.current = setTimeout(() => {
+        hide();
+      }, 4000); // 300ms in, 3000ms hold, 200ms out
     },
-    [opacity, translateY]
+    [opacity, translateY, hide]
   );
 
   const animatedStyle = useAnimatedStyle(() => {
