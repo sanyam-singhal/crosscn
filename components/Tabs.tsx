@@ -43,7 +43,7 @@ Tabs.displayName = "Tabs";
 
 // --- TabsList ---
 const TabsList = React.forwardRef<
-  React.ElementRef<typeof ScrollView>,
+  React.ComponentRef<typeof ScrollView>,
   React.ComponentPropsWithoutRef<typeof ScrollView>
 >(({ className, contentContainerStyle, ...props }, ref) => (
   <ScrollView
@@ -71,7 +71,7 @@ interface TabsTriggerProps
 }
 
 const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   TabsTriggerProps
 >(({ value, className, children, ...props }, ref) => {
   const { value: selectedValue, onValueChange } = useTabsContext();

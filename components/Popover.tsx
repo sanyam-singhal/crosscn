@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import RNPPopover from 'react-native-popover-view';
 
 const Popover = React.forwardRef<
-  React.ElementRef<typeof RNPPopover>,
+  React.ComponentRef<typeof RNPPopover>,
   React.ComponentProps<typeof RNPPopover>
 >(({ from, children, popoverStyle, ...props }, ref) => {
   return (
@@ -21,7 +21,7 @@ const Popover = React.forwardRef<
 Popover.displayName = 'Popover';
 
 const PopoverContent = React.forwardRef<
-  React.ElementRef<typeof View>,
+  React.ComponentRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => (
   <View

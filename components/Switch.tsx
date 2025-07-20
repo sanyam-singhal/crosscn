@@ -25,7 +25,7 @@ interface SwitchProps {
 }
 
 const Switch = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   SwitchProps
 >(({ checked, onCheckedChange, disabled, size = "default", className, trackClassName, thumbClassName }, ref) => {
   const { colorScheme } = useColorScheme();

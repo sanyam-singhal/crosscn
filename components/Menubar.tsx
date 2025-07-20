@@ -34,7 +34,7 @@ const MenubarMenu = React.forwardRef<
 MenubarMenu.displayName = 'MenubarMenu';
 
 const MenubarTrigger = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   React.ComponentPropsWithoutRef<typeof Pressable>
 >(({ className, ...props }, ref) => {
   if (Platform.OS !== 'web') return null;
@@ -72,7 +72,7 @@ const MenubarContent = React.forwardRef<
 MenubarContent.displayName = 'MenubarContent';
 
 const MenubarItem = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   React.ComponentPropsWithoutRef<typeof Pressable> & { inset?: boolean }
 >(({ className, inset, ...props }, ref) => {
   if (Platform.OS !== 'web') return null;

@@ -1,12 +1,8 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -65,35 +61,31 @@ const Slider = React.forwardRef<View, SliderProps>(
       };
     });
 
-    const gestureHandler = useAnimatedGestureHandler<
-      PanGestureHandlerGestureEvent,
-      { startProgress: number }
-    >(
-      {
-        onStart: (_, ctx) => {
-          ctx.startProgress = progress.value;
-          isPressed.value = true;
-        },
-        onActive: (event, ctx) => {
-          const newProgress =
-            ctx.startProgress + event.translationX / trackWidth.value;
-          const clampedProgress = Math.max(0, Math.min(1, newProgress));
+    const startProgress = useSharedValue(0);
 
-          const steps = (max - min) / step;
-          const stepIndex = Math.round(clampedProgress * steps);
-          const steppedProgress = stepIndex / steps;
+    const panGesture = Gesture.Pan()
+      .onStart(() => {
+        startProgress.value = progress.value;
+        isPressed.value = true;
+      })
+      .onUpdate((event) => {
+        if (trackWidth.value === 0) return;
+        const newProgress =
+          startProgress.value + event.translationX / trackWidth.value;
+        const clampedProgress = Math.max(0, Math.min(1, newProgress));
 
-          progress.value = steppedProgress;
+        const steps = (max - min) / step;
+        const stepIndex = Math.round(clampedProgress * steps);
+        const steppedProgress = stepIndex / steps;
 
-          const newValue = min + steppedProgress * (max - min);
-          runOnJS(onValueChange)(parseFloat(newValue.toFixed(2)));
-        },
-        onEnd: () => {
-          isPressed.value = false;
-        },
-      },
-      [min, max, step, onValueChange]
-    );
+        progress.value = steppedProgress;
+
+        const newValue = min + steppedProgress * (max - min);
+        runOnJS(onValueChange)(parseFloat(newValue.toFixed(2)));
+      })
+      .onEnd(() => {
+        isPressed.value = false;
+      });
 
     return (
       <View
@@ -117,7 +109,7 @@ const Slider = React.forwardRef<View, SliderProps>(
             )}
           />
         </View>
-        <PanGestureHandler onGestureEvent={disabled ? undefined : gestureHandler}>
+        <GestureDetector gesture={disabled ? Gesture.Manual() : panGesture}>
           <Animated.View
             style={animatedThumbStyle}
             className={twMerge(
@@ -126,7 +118,7 @@ const Slider = React.forwardRef<View, SliderProps>(
               thumbClassName
             )}
           />
-        </PanGestureHandler>
+        </GestureDetector>
       </View>
     );
   }

@@ -116,7 +116,7 @@ const ModalDescription = React.forwardRef<
 ModalDescription.displayName = "ModalDescription";
 
 const ModalClose = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   React.ComponentPropsWithoutRef<typeof Pressable>
 >(({ className, ...props }, ref) => {
   // This needs to be used inside a Modal component to get the context

@@ -121,7 +121,7 @@ AccordionItem.displayName = "AccordionItem";
 
 // --- AccordionTrigger ---
 const AccordionTrigger = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   React.ComponentPropsWithoutRef<typeof Pressable>
 >(({ className, children, ...props }, ref) => {
   const { value, onValueChange, type } = useAccordionContext();

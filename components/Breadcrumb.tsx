@@ -34,7 +34,7 @@ const BreadcrumbItem = React.forwardRef<
 BreadcrumbItem.displayName = 'BreadcrumbItem';
 
 const BreadcrumbLink = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   React.ComponentPropsWithoutRef<typeof Pressable> & {
     children: React.ReactNode;
     textClassName?: string;

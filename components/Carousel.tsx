@@ -2,15 +2,13 @@ import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import {
   View,
-  Dimensions,
   Pressable,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  FlatList,
+  ListRenderItem,
 } from 'react-native';
-import Animated from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
-
-const { width: screenWidth } = Dimensions.get('window');
 
 interface CarouselProps<T> extends React.ComponentPropsWithoutRef<typeof View> {
   data: T[];
@@ -39,16 +37,17 @@ function CarouselInner<T extends object>(
   }: CarouselProps<T>,
   ref: React.Ref<View>
 ) {
-  const scrollViewRef = useRef<Animated.ScrollView>(null);
+  const flatListRef = useRef<FlatList<T>>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [carouselWidth, setCarouselWidth] = useState(0);
 
   useEffect(() => {
-    if (autoplay) {
+    if (autoplay && carouselWidth > 0) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => {
-          const nextIndex = prevIndex === data.length - 1 ? 0 : prevIndex + 1;
+          const nextIndex = (prevIndex + 1) % data.length;
           if (loop || nextIndex > prevIndex) {
-            scrollViewRef.current?.scrollTo({ x: nextIndex * screenWidth, animated: true });
+            flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
             return nextIndex;
           }
           return prevIndex;
@@ -56,30 +55,46 @@ function CarouselInner<T extends object>(
       }, autoplayDelay);
       return () => clearInterval(interval);
     }
-  }, [autoplay, autoplayDelay, data.length, loop]);
+  }, [autoplay, autoplayDelay, data.length, loop, carouselWidth]);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const contentOffsetX = event.nativeEvent.contentOffset.x;
-    const index = Math.round(contentOffsetX / screenWidth);
-    setCurrentIndex(index);
+    if (carouselWidth > 0) {
+      const contentOffsetX = event.nativeEvent.contentOffset.x;
+      const index = Math.round(contentOffsetX / carouselWidth);
+      setCurrentIndex(index);
+    }
+  };
+
+  const renderCarouselItem: ListRenderItem<T> = ({ item, index }) => {
+    return (
+      <View style={{ width: carouselWidth }}>
+        {renderItem(item, index)}
+      </View>
+    );
   };
 
   return (
-    <View ref={ref} className={twMerge('relative', className)} {...props}>
-      <Animated.ScrollView
-        ref={scrollViewRef}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={handleScroll}
-        contentContainerClassName={contentContainerClassName}
-      >
-        {data.map((item, index) => (
-          <View key={index} style={{ width: screenWidth }}>
-            {renderItem(item, index)}
-          </View>
-        ))}
-      </Animated.ScrollView>
+    <View
+      ref={ref}
+      className={twMerge('relative', className)}
+      onLayout={(event) => {
+        setCarouselWidth(event.nativeEvent.layout.width);
+      }}
+      {...props}
+    >
+      {carouselWidth > 0 && (
+        <FlatList
+          ref={flatListRef}
+          data={data}
+          renderItem={renderCarouselItem}
+          keyExtractor={(_item, index) => index.toString()}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={handleScroll}
+          contentContainerClassName={contentContainerClassName}
+        />
+      )}
       <View
         className={twMerge(
           'absolute bottom-4 left-0 right-0 flex-row justify-center gap-2',
@@ -90,7 +105,7 @@ function CarouselInner<T extends object>(
           <Pressable
             key={index}
             onPress={() =>
-              scrollViewRef.current?.scrollTo({ x: index * screenWidth, animated: true })
+              flatListRef.current?.scrollToIndex({ index, animated: true })
             }
           >
             <View

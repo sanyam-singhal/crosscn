@@ -67,7 +67,7 @@ interface RadioGroupItemProps extends React.ComponentPropsWithoutRef<typeof Pres
 }
 
 const RadioGroupItem = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   RadioGroupItemProps
 >(({ value, label, indicatorClassName, selectedIndicatorClassName, dotClassName, labelClassName, className, ...props }, ref) => {
   const {

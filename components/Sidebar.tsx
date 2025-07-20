@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Pressable, useWindowDimensions } from 'react-native';
+import { View, Text, Pressable, useWindowDimensions, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 import { twMerge } from 'tailwind-merge';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
@@ -69,7 +69,7 @@ const Sidebar = ({ items, activeHref, ...props }: SidebarProps) => {
         </Pressable>
       </View>
 
-      <View className="flex-1">
+      <ScrollView className="flex-1">
         {items.map((item) => {
           const isActive = activeHref === item.href;
           return (
@@ -106,7 +106,7 @@ const Sidebar = ({ items, activeHref, ...props }: SidebarProps) => {
             </Link>
           );
         })}
-      </View>
+      </ScrollView>
     </Animated.View>
   );
 };

@@ -56,13 +56,13 @@ const Collapsible = ({ open: controlledOpen, onOpenChange, defaultOpen = false, 
 
   return (
     <CollapsibleContext.Provider value={contextValue}>
-      <View {...props} />
+      <View {...props}>{props.children}</View>
     </CollapsibleContext.Provider>
   );
 };
 
 const CollapsibleTrigger = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   React.ComponentPropsWithoutRef<typeof Pressable>
 >((props, ref) => {
   const { toggle } = useCollapsibleContext();

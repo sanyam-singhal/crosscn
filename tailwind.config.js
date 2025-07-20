@@ -15,6 +15,8 @@ module.exports = {
         'card-foreground': { light: '#002D3C', dark: '#FFF9E6' },
         popover:           { light: '#C7FFFD', dark: '#0B2F9F' },
         'popover-foreground': { light: '#002D3C', dark: '#FFF9E6' },
+        sheet:             { light: '#FFFFFF', dark: '#002A3A' },
+        'sheet-foreground': { light: '#002D3C', dark: '#FFF9E6' },
         primary: {
           DEFAULT:            '#04695C',
           foreground:         '#FFFFFF',

@@ -23,7 +23,7 @@ interface CheckboxProps {
 }
 
 const Checkbox = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   CheckboxProps
 >(({ checked, onCheckedChange, label, disabled, className, wrapperClassName, labelClassName }, ref) => {
   const scale = useSharedValue(checked === true ? 1 : 0);

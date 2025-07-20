@@ -1,25 +1,25 @@
 import * as React from 'react';
 import { FlatList, FlatListProps, ListRenderItemInfo } from 'react-native';
-import Animated, { AnimateProps, Easing, Layout } from 'react-native-reanimated';
+import Animated, { AnimatedProps, Easing, LinearTransition } from 'react-native-reanimated';
 
 // Note: For this to work, you need to have react-native-reanimated properly configured.
 
 interface AnimatedListProps<T> extends FlatListProps<T> {
-  entering?: AnimateProps<typeof Animated.View>['entering'];
-  exiting?: AnimateProps<typeof Animated.View>['exiting'];
-  layout?: AnimateProps<typeof Animated.View>['layout'];
+  entering?: AnimatedProps<typeof Animated.View>['entering'];
+  exiting?: AnimatedProps<typeof Animated.View>['exiting'];
+  layout?: AnimatedProps<typeof Animated.View>['layout'];
 }
 
 const AnimatedListItem = ({
   children,
-  entering = Layout.easing(Easing.ease).duration(500),
-  exiting = Layout.easing(Easing.ease).duration(500),
-  layout = Layout.easing(Easing.ease).duration(500),
+  entering = LinearTransition.easing(Easing.ease).duration(500),
+  exiting = LinearTransition.easing(Easing.ease).duration(500),
+  layout = LinearTransition.easing(Easing.ease).duration(500),
 }: {
   children: React.ReactNode;
-  entering?: AnimateProps<typeof Animated.View>['entering'];
-  exiting?: AnimateProps<typeof Animated.View>['exiting'];
-  layout?: AnimateProps<typeof Animated.View>['layout'];
+  entering?: AnimatedProps<typeof Animated.View>['entering'];
+  exiting?: AnimatedProps<typeof Animated.View>['exiting'];
+  layout?: AnimatedProps<typeof Animated.View>['layout'];
 }) => (
   <Animated.View entering={entering} exiting={exiting} layout={layout}>
     {children}

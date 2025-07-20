@@ -48,7 +48,7 @@ const Combobox = ({ children, value, onValueChange }: ComboboxProps) => {
 };
 
 const ComboboxTrigger = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   React.ComponentPropsWithoutRef<typeof Pressable>
 >(({ onPress, ...props }, ref) => {
   const { setOpen } = useComboboxContext();
@@ -66,7 +66,7 @@ const ComboboxTrigger = React.forwardRef<
 ComboboxTrigger.displayName = 'ComboboxTrigger';
 
 const ComboboxInput = React.forwardRef<
-  React.ElementRef<typeof Input>,
+  React.ComponentRef<typeof Input>,
   React.ComponentPropsWithoutRef<typeof Input>
 >(({ onFocus, ...props }, ref) => {
   const { value, setValue, setOpen } = useComboboxContext();
@@ -86,7 +86,7 @@ const ComboboxInput = React.forwardRef<
 ComboboxInput.displayName = 'ComboboxInput';
 
 const ComboboxContent = React.forwardRef<
-  React.ElementRef<typeof View>,
+  React.ComponentRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, children, ...props }, ref) => {
   const { open, setOpen } = useComboboxContext();
@@ -109,7 +109,7 @@ const ComboboxContent = React.forwardRef<
 ComboboxContent.displayName = 'ComboboxContent';
 
 const ComboboxItem = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ComponentRef<typeof Pressable>,
   React.ComponentPropsWithoutRef<typeof Pressable> & {
     value: string;
     iconClassName?: string;

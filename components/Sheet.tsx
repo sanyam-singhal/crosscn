@@ -3,7 +3,6 @@ import {
   View,
   Text,
   Pressable,
-  StyleSheet,
   useWindowDimensions,
   Platform,
 } from "react-native";
@@ -18,7 +17,7 @@ import { twMerge } from "tailwind-merge";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const sheetVariants = cva(
-  "fixed bg-background w-full h-full border-border shadow-lg",
+  "absolute bg-sheet",
   {
     variants: {
       side: {
@@ -117,8 +116,8 @@ const Sheet = ({
         {open && (
           <Pressable
             onPress={closeSheet}
-            style={StyleSheet.absoluteFill}
-            className={twMerge("bg-black/60", overlayClassName)}
+            
+            className={twMerge("absolute inset-0 bg-popover", overlayClassName) }
           />
         )}
         <Animated.View
@@ -143,8 +142,7 @@ const Sheet = ({
       {open && (
         <Pressable
           onPress={closeSheet}
-          style={StyleSheet.absoluteFill}
-          className={twMerge("bg-black/60", overlayClassName)}
+          className={twMerge("absolute inset-0 bg-black/60", overlayClassName)}
         />
       )}
       <GestureDetector gesture={pan}>

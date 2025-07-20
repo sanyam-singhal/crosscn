@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import Popover from "react-native-popover-view";
+import Popover, { PopoverPlacement } from "react-native-popover-view";
 import { twMerge } from "tailwind-merge";
 
 interface DropdownMenuProps {
   trigger: React.ReactElement;
+  placement?: PopoverPlacement;
   /** Extra classes for menu container */
   menuClassName?: string;
   /** Extra classes for each item row */
@@ -21,10 +22,11 @@ interface DropdownMenuProps {
   }[];
 }
 
-const DropdownMenu = ({ trigger, items, menuClassName, itemClassName, destructiveItemClassName, textClassName }: DropdownMenuProps) => {
+const DropdownMenu = ({ trigger, items, menuClassName, itemClassName, destructiveItemClassName, textClassName, placement }: DropdownMenuProps) => {
   return (
     <Popover
       from={trigger}
+      placement={placement}
       popoverStyle={{ borderRadius: 6 }}
       backgroundStyle={{ opacity: 0 }}
     >
