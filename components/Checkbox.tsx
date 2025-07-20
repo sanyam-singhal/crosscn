@@ -56,9 +56,9 @@ const Checkbox = React.forwardRef<
       <View
         className={twMerge(
           "h-5 w-5 rounded border-2 justify-center items-center",
-          (checked === true || checked === "indeterminate") && "border-primary bg-primary",
-          !checked && "border-muted-foreground/50 bg-transparent",
-          disabled && "border-muted-foreground/30 bg-muted-foreground/30 opacity-50",
+          (checked === true || checked === "indeterminate") && "border-primary bg-primary dark:border-primary-dark dark:bg-primary-dark",
+          !checked && "border-muted-foreground/50 bg-transparent dark:border-muted-foreground-dark/50",
+          disabled && "border-muted-foreground/30 bg-muted-foreground/30 opacity-50 dark:border-muted-foreground-dark/30 dark:bg-muted-foreground-dark/30",
           className
         )}
       >
@@ -72,7 +72,7 @@ const Checkbox = React.forwardRef<
       </View>
       {label && (
         <Text
-          className={twMerge("text-foreground", disabled && "opacity-50", labelClassName)}
+          className={twMerge("text-foreground dark:text-foreground-dark", disabled && "opacity-50", labelClassName)}
         >
           {label}
         </Text>

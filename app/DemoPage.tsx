@@ -21,4 +21,4 @@ const DemoPage = ({ title, description, children }: DemoPageProps) => {
   );
 };
 
-export { DemoPage };
+export default DemoPage;

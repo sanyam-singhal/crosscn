@@ -9,11 +9,11 @@ const iconButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary",
-        destructive: "bg-destructive",
-        outline: "border border-input hover:bg-accent",
-        secondary: "bg-secondary",
-        ghost: "hover:bg-accent",
+        default: "bg-primary dark:bg-primary-dark",
+        destructive: "bg-destructive dark:bg-destructive-dark",
+        outline: "border border-input hover:bg-accent dark:border-input-dark dark:hover:bg-accent-dark",
+        secondary: "bg-secondary dark:bg-secondary-dark",
+        ghost: "hover:bg-accent dark:hover:bg-accent-dark",
         link: "",
       },
       size: {
@@ -32,12 +32,12 @@ const iconButtonVariants = cva(
 const iconVariants = cva("", {
   variants: {
     variant: {
-      default: "text-primary-foreground",
-      destructive: "text-destructive-foreground",
-      outline: "text-accent-foreground",
-      secondary: "text-secondary-foreground",
-      ghost: "text-accent-foreground",
-      link: "text-primary underline-offset-4",
+      default: "text-primary-foreground dark:text-primary-dark-foreground",
+      destructive: "text-destructive-foreground dark:text-destructive-dark-foreground",
+      outline: "text-accent-foreground dark:text-accent-dark-foreground",
+      secondary: "text-secondary-foreground dark:text-secondary-dark-foreground",
+      ghost: "text-accent-foreground dark:text-accent-dark-foreground",
+      link: "text-primary dark:text-primary-dark underline-offset-4",
     },
     size: {
       default: "h-5 w-5",

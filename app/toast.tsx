@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Button } from '../components/Button';
 import { useToast } from '../components/Toast';
-import { DemoPage } from './DemoPage';
+import DemoPage from './DemoPage';
 
 const ToastDemo = () => {
   const { show } = useToast();

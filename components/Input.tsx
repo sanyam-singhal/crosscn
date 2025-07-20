@@ -21,8 +21,8 @@ interface InputProps extends React.ComponentPropsWithoutRef<typeof TextInput> {
 const Input = React.forwardRef<TextInput, InputProps>(
   ({ className, error, iconLeft, iconRight, containerClassName, iconLeftWrapperClassName, iconRightWrapperClassName, errorClassName, disabled, ...props }, ref) => {
     const inputClasses = twMerge(
-      "h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-      error && "border-destructive",
+      "h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-input-dark dark:text-foreground-dark dark:placeholder:text-muted-foreground-dark dark:ring-offset-background-dark dark:focus:ring-ring-dark",
+      error && "border-destructive dark:border-destructive-dark",
       !!iconLeft && "pl-10",
       !!iconRight && "pr-10",
       className
@@ -41,7 +41,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             {iconRight}
           </View>
         )}
-        {error && <Text className={twMerge("mt-1 text-sm text-destructive", errorClassName)}>{error}</Text>}
+        {error && <Text className={twMerge("mt-1 text-sm text-destructive dark:text-destructive-dark", errorClassName)}>{error}</Text>}
       </View>
     );
   }

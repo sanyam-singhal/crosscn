@@ -22,8 +22,8 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-border bg-background",
-        destructive: "border-destructive bg-destructive/10",
+        default: "border-border bg-background dark:border-border-dark dark:bg-background-dark",
+        destructive: "border-destructive bg-destructive/10 dark:border-destructive-dark dark:bg-destructive-dark/10",
       },
     },
     defaultVariants: {
@@ -35,8 +35,8 @@ const toastVariants = cva(
 const toastTitleVariants = cva("text-sm font-semibold", {
   variants: {
     variant: {
-      default: "text-foreground",
-      destructive: "text-destructive",
+      default: "text-foreground dark:text-foreground-dark",
+      destructive: "text-destructive dark:text-destructive-dark",
     },
   },
   defaultVariants: {
@@ -47,8 +47,8 @@ const toastTitleVariants = cva("text-sm font-semibold", {
 const toastDescriptionVariants = cva("text-sm", {
   variants: {
     variant: {
-      default: "text-muted-foreground",
-      destructive: "text-destructive/80",
+      default: "text-muted-foreground dark:text-muted-foreground-dark",
+      destructive: "text-destructive/80 dark:text-destructive-dark/80",
     },
   },
   defaultVariants: {
@@ -161,7 +161,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
             )}
           </View>
           <Pressable onPress={hide} className={twMerge(toast.closeClassName)}>
-            <Feather name="x" size={18} className={twMerge("text-muted-foreground", toast.closeClassName)} />
+            <Feather name="x" size={18} className={twMerge("text-muted-foreground dark:text-muted-foreground-dark", toast.closeClassName)} />
           </Pressable>
         </Animated.View>
       )}

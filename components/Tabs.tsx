@@ -51,7 +51,7 @@ const TabsList = React.forwardRef<
     horizontal
     showsHorizontalScrollIndicator={false}
     className={twMerge(
-      "h-10 rounded-lg bg-muted p-1 text-muted-foreground",
+      "h-10 rounded-lg bg-muted p-1 text-muted-foreground dark:bg-muted-dark dark:text-muted-foreground-dark",
       className
     )}
     contentContainerStyle={[
@@ -84,7 +84,7 @@ const TabsTrigger = React.forwardRef<
       disabled={props.disabled}
       className={twMerge(
         "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-        isActive && "bg-background text-foreground shadow-sm-native",
+        isActive && "bg-background text-foreground shadow-sm-native dark:bg-background-dark dark:text-foreground-dark",
         className
       )}
       {...props}
@@ -92,7 +92,7 @@ const TabsTrigger = React.forwardRef<
       <Text
         className={twMerge(
           "text-sm font-medium",
-          isActive ? "text-foreground" : "text-muted-foreground"
+          isActive ? "text-foreground dark:text-foreground-dark" : "text-muted-foreground dark:text-muted-foreground-dark"
         )}
       >
         {children}

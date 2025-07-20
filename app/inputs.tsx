@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Input } from '../components/Input';
 import { Feather } from '@expo/vector-icons';
-import { DemoPage } from './DemoPage';
+import DemoPage from './DemoPage';
 
 const InputsDemo = () => {
   return (

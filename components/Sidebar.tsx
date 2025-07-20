@@ -54,10 +54,10 @@ const Sidebar = ({ items, activeHref, ...props }: SidebarProps) => {
   return (
     <Animated.View
       style={animatedStyle}
-      className={twMerge('bg-card border-r border-border p-4 flex-col', props.className)}
+      className={twMerge('bg-card border-r border-border p-4 flex-col dark:bg-card-dark dark:border-border-dark', props.className)}
     >
       <View className="flex-row items-center justify-between mb-4">
-        {!isCollapsed && <Text className="text-lg font-semibold text-foreground">Components</Text>}
+        {!isCollapsed && <Text className="text-lg font-semibold text-foreground dark:text-foreground-dark">Components</Text>}
         <Pressable
           onPress={toggleSidebar}
           className={twMerge(
@@ -65,7 +65,7 @@ const Sidebar = ({ items, activeHref, ...props }: SidebarProps) => {
             props.collapseButtonClassName
           )}
         >
-          <Feather name={isCollapsed ? 'menu' : 'x'} size={20} className="text-muted-foreground" />
+          <Feather name={isCollapsed ? 'menu' : 'x'} size={20} className="text-muted-foreground dark:text-muted-foreground-dark" />
         </Pressable>
       </View>
 
@@ -78,25 +78,25 @@ const Sidebar = ({ items, activeHref, ...props }: SidebarProps) => {
                 className={twMerge(
                   'flex-row items-center p-2 rounded-lg mb-2',
                   props.itemClassName,
-                  isActive && twMerge('bg-primary/10', props.activeItemClassName)
+                  isActive && twMerge('bg-primary/10 dark:bg-primary-dark/10', props.activeItemClassName)
                 )}
               >
                 <View className={twMerge('w-8 items-center', props.iconContainerClassName)}>
                   {React.cloneElement(item.icon as React.ReactElement, {
                     // @ts-ignore
                     className: twMerge(
-                      'text-muted-foreground',
+                      'text-muted-foreground dark:text-muted-foreground-dark',
                       props.iconClassName,
-                      isActive && twMerge('text-primary', props.activeIconClassName)
+                      isActive && twMerge('text-primary dark:text-primary-dark', props.activeIconClassName)
                     ),
                   })}
                 </View>
                 {!isCollapsed && (
                   <Text
                     className={twMerge(
-                      'text-muted-foreground ml-4 font-medium',
+                      'text-muted-foreground ml-4 font-medium dark:text-muted-foreground-dark',
                       props.textClassName,
-                      isActive && twMerge('text-primary', props.activeTextClassName)
+                      isActive && twMerge('text-primary dark:text-primary-dark', props.activeTextClassName)
                     )}
                   >
                     {item.name}

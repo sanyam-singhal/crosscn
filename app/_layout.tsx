@@ -19,11 +19,11 @@ const navItems = [
   { name: 'Checkbox', href: '/checkbox', icon: <Feather name="check-square" size={20} /> },
   { name: 'Toast', href: '/toast', icon: <Feather name="bell" size={20} /> },
   { name: 'Tabs', href: '/tabs-demo', icon: <Feather name="folder" size={20} /> },
+  { name: 'Slider', href: '/slider', icon: <Feather name="sliders" size={20} /> },
 ];
 
 export default function RootLayout() {
   let { colorScheme, toggleColorScheme } = useColorScheme();
-  console.log(colorScheme);
 
   const segments = useSegments();
   const activeHref = `/${segments[segments.length - 1]}`;
@@ -54,6 +54,7 @@ export default function RootLayout() {
                 <Stack.Screen name="checkbox" />
                 <Stack.Screen name="toast" />
                 <Stack.Screen name="tabs-demo" />
+                <Stack.Screen name="slider" />
             </Stack>
           </View>
         </View>
