@@ -1,21 +1,10 @@
 import React from "react";
-import {
-  View,
-  Pressable,
-  LayoutAnimation,
-  UIManager,
-  Platform,
-} from "react-native";
+import { View, Pressable } from "react-native";
 import { twMerge } from "tailwind-merge";
 import { Feather } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 
-if (
-  Platform.OS === "android" &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+
 
 // --- Accordion Context ---
 interface AccordionContextProps {
@@ -164,9 +153,7 @@ const AccordionContent = React.forwardRef<
       ? value === itemValue
       : Array.isArray(value) && value.includes(itemValue);
 
-  React.useEffect(() => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }, [isOpen]);
+
 
   if (!isOpen) {
     return null;

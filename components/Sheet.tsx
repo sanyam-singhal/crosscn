@@ -3,16 +3,9 @@ import {
   View,
   Text,
   Pressable,
-  useWindowDimensions,
   Platform,
 } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  runOnJS,
-} from "react-native-reanimated";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+
 import { twMerge } from "tailwind-merge";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -53,113 +46,36 @@ const Sheet = ({
   className,
   overlayClassName,
 }: SheetProps) => {
-  const { width, height } = useWindowDimensions();
-  const offset = useSharedValue(0);
-
-  const isVertical = side === "top" || side === "bottom";
-  const dimension = isVertical ? height : width;
-
   const closeSheet = () => {
     onOpenChange(false);
   };
 
-  React.useEffect(() => {
-    offset.value = withTiming(open ? 0 : -dimension, { duration: 250 });
-  }, [open, dimension, offset]);
-
-  const pan = Gesture.Pan()
-    .onChange((event) => {
-      const change = isVertical ? event.changeY : event.changeX;
-      const currentOffset = offset.value + change;
-      if (
-        (side === "bottom" || side === "right") &&
-        currentOffset > -dimension &&
-        currentOffset < 0
-      ) {
-        offset.value = currentOffset;
-      } else if (
-        (side === "top" || side === "left") &&
-        currentOffset < dimension &&
-        currentOffset > 0
-      ) {
-        offset.value = currentOffset;
-      }
-    })
-    .onEnd(() => {
-      if (Math.abs(offset.value) > dimension / 3) {
-        runOnJS(closeSheet)();
-      } else {
-        offset.value = withTiming(0);
-      }
-    });
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const translate =
-      side === "bottom" || side === "right"
-        ? {
-            transform: isVertical
-              ? [{ translateY: -offset.value }]
-              : [{ translateX: -offset.value }],
-          }
-        : {
-            transform: isVertical
-              ? [{ translateY: offset.value }]
-              : [{ translateX: offset.value }],
-          };
-    return { ...translate };
-  });
-
-  if (Platform.OS === "web") {
-    // Basic web implementation without gesture handling
-    return (
-      <>
-        {open && (
-          <Pressable
-            onPress={closeSheet}
-            
-            className={twMerge("absolute inset-0 bg-popover", overlayClassName) }
-          />
-        )}
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              width: isVertical ? "100%" : 300,
-              height: !isVertical ? "100%" : 400,
-            },
-            animatedStyle,
-          ]}
-          className={twMerge(sheetVariants({ side }), className)}
-        >
-          {children}
-        </Animated.View>
-      </>
-    );
+  if (!open) {
+    return null;
   }
+
+  const isVertical = side === "top" || side === "bottom";
 
   return (
     <>
-      {open && (
-        <Pressable
-          onPress={closeSheet}
-          className={twMerge("absolute inset-0 bg-black/60", overlayClassName)}
-        />
-      )}
-      <GestureDetector gesture={pan}>
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              width: isVertical ? "100%" : 300,
-              height: !isVertical ? "100%" : 400,
-            },
-            animatedStyle,
-          ]}
-          className={twMerge(sheetVariants({ side }), className)}
-        >
-          {children}
-        </Animated.View>
-      </GestureDetector>
+      <Pressable
+        onPress={closeSheet}
+        className={twMerge(
+          "absolute inset-0",
+          Platform.OS === "web" ? "bg-popover" : "bg-black/60",
+          overlayClassName
+        )}
+      />
+      <View
+        style={{
+          position: "absolute",
+          width: isVertical ? "100%" : 300,
+          height: !isVertical ? "100%" : 400,
+        }}
+        className={twMerge(sheetVariants({ side }), className)}
+      >
+        {children}
+      </View>
     </>
   );
 };

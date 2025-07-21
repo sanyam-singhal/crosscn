@@ -10,7 +10,7 @@ const Skeleton = React.forwardRef<
     <View
       ref={ref}
       className={twMerge(
-        "animate-pulse rounded-md bg-muted",
+        "rounded-md bg-muted",
         className
       )}
       {...props}

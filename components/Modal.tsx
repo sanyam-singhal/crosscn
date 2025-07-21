@@ -23,7 +23,7 @@ interface ModalProps {
 const Modal = ({ open, onOpenChange, children, backdropClassName, containerClassName }: ModalProps) => {
   return (
     <RNModal
-      animationType="fade"
+      animationType="none"
       transparent={true}
       visible={open}
       onRequestClose={() => onOpenChange(false)}

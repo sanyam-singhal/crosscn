@@ -1,20 +1,9 @@
 import * as React from 'react';
 import { useState, useCallback } from 'react';
-import {
-  View,
-  Pressable,
-  LayoutAnimation,
-  UIManager,
-  Platform,
-} from 'react-native';
+import { View, Pressable } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 
-if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+
 
 interface CollapsibleContextProps {
   isOpen: boolean;
@@ -44,7 +33,7 @@ const Collapsible = ({ open: controlledOpen, onOpenChange, defaultOpen = false, 
   const isOpen = isControlled ? controlledOpen : internalOpen;
 
   const toggle = useCallback(() => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
     if (isControlled) {
       onOpenChange?.(!isOpen);
     } else {

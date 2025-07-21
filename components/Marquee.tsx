@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import Animated, {
-  cancelAnimation,
-  Easing,
-  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
+  Easing,
+  cancelAnimation,
+
 } from 'react-native-reanimated';
 import { twMerge } from 'tailwind-merge';
 
@@ -19,10 +19,38 @@ interface MarqueeProps extends React.ComponentPropsWithoutRef<typeof View> {
 }
 
 const Marquee = React.forwardRef<View, MarqueeProps>(
-  ({ children, speed = 1, className, contentClassName, duplicateContentClassName, ...props }, ref) => {
+  (
+    {
+      children,
+      speed = 1,
+      className,
+      contentClassName,
+      duplicateContentClassName,
+      ...props
+    },
+    ref
+  ) => {
+    const [containerWidth, setContainerWidth] = React.useState(0);
+    const [contentWidth, setContentWidth] = React.useState(0);
     const translateX = useSharedValue(0);
-    const containerWidth = useSharedValue(0);
-    const contentWidth = useSharedValue(0);
+
+    const isAnimationReady = containerWidth > 0 && contentWidth > 0;
+
+    React.useEffect(() => {
+      if (!isAnimationReady) return;
+
+      const duration = (contentWidth / (50 * speed)) * 1000;
+      translateX.value = withRepeat(
+        withTiming(-contentWidth, { duration, easing: Easing.linear }),
+        -1,
+        false
+      );
+
+      return () => {
+        cancelAnimation(translateX);
+        translateX.value = 0;
+      };
+    }, [isAnimationReady, contentWidth, speed, translateX]);
 
     const animatedStyle = useAnimatedStyle(() => {
       return {
@@ -30,52 +58,26 @@ const Marquee = React.forwardRef<View, MarqueeProps>(
       };
     });
 
-    useAnimatedReaction(
-      () => {
-        return { cw: contentWidth.value, ctw: containerWidth.value };
-      },
-      (result, previous) => {
-        if (
-          result.cw > 0 &&
-          result.ctw > 0 &&
-          (!previous || result.cw !== previous.cw || result.ctw !== previous.ctw)
-        ) {
-          const distance = result.cw + result.ctw;
-          translateX.value = withRepeat(
-            withTiming(-distance, {
-              duration: distance / (0.05 * speed), // 50px/s
-              easing: Easing.linear,
-            }),
-            -1,
-            false
-          );
-        }
-      },
-      [speed]
-    );
-
-    React.useEffect(() => {
-      return () => {
-        cancelAnimation(translateX);
-      };
-    }, [translateX]);
-
     return (
       <View
         ref={ref}
-        onLayout={(e) => (containerWidth.value = e.nativeEvent.layout.width)}
         className={twMerge('overflow-hidden', className)}
+        onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}
         {...props}
       >
-        <Animated.View style={animatedStyle} className={twMerge('flex-row', contentClassName)}>
-          <View
-            onLayout={(e) => (contentWidth.value = e.nativeEvent.layout.width)}
-            className="flex-row"
-          >
-            {children}
-          </View>
-          {/* Duplicate content for seamless looping */}
-          <View className={twMerge('flex-row pl-4', duplicateContentClassName)}>{children}</View>
+        <Animated.View
+          className={twMerge('flex-row', contentClassName)}
+          style={animatedStyle}
+          onLayout={(e) => setContentWidth(e.nativeEvent.layout.width)}
+        >
+          {children}
+          {isAnimationReady && contentWidth > containerWidth && (
+            <View
+              className={twMerge('absolute left-[100%]', duplicateContentClassName)}
+            >
+              {children}
+            </View>
+          )}
         </Animated.View>
       </View>
     );

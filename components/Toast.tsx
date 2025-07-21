@@ -6,12 +6,7 @@ import React, {
   useRef,
 } from "react";
 import { View, Text, Pressable, Platform } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  runOnJS,
-} from "react-native-reanimated";
+
 import { twMerge } from "tailwind-merge";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
@@ -87,8 +82,6 @@ export const useToast = () => {
 
 export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const [toast, setToast] = useState<ToastProps | null>(null);
-  const opacity = useSharedValue(0);
-  const translateY = useSharedValue(-50);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const hide = useCallback(() => {
@@ -96,11 +89,8 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    translateY.value = withTiming(-50, { duration: 200 });
-    opacity.value = withTiming(0, { duration: 200 }, () => {
-      runOnJS(setToast)(null);
-    });
-  }, [opacity, translateY]);
+    setToast(null);
+  }, []);
 
   const show = useCallback(
     (props: ToastProps) => {
@@ -119,51 +109,56 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
         );
       }
 
-      translateY.value = withTiming(0, { duration: 300 });
-      opacity.value = withTiming(1, { duration: 300 });
-
       timeoutRef.current = setTimeout(() => {
         hide();
-      }, 4000); // 300ms in, 3000ms hold, 200ms out
+      }, 4000);
     },
-    [opacity, translateY, hide]
+    [hide]
   );
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value,
-      transform: [{ translateY: translateY.value }],
-    };
-  });
 
   return (
     <ToastContext.Provider value={{ show }}>
       {children}
       {toast && (
-        <Animated.View
-          style={animatedStyle}
-          className={twMerge(toastVariants({ variant: toast.variant }), toast.className)}
+        <View
+          className={twMerge(
+            toastVariants({ variant: toast.variant }),
+            toast.className
+          )}
         >
           <View className={twMerge("flex-1 pr-4", toast.bodyClassName)}>
             {toast.title && (
               <Text
-                className={twMerge(toastTitleVariants({ variant: toast.variant }), toast.titleClassName)}
+                className={twMerge(
+                  toastTitleVariants({ variant: toast.variant }),
+                  toast.titleClassName
+                )}
               >
                 {toast.title}
               </Text>
             )}
             {toast.description && (
               <Text
-                className={twMerge(toastDescriptionVariants({ variant: toast.variant }), toast.descriptionClassName)}
+                className={twMerge(
+                  toastDescriptionVariants({ variant: toast.variant }),
+                  toast.descriptionClassName
+                )}
               >
                 {toast.description}
               </Text>
             )}
           </View>
           <Pressable onPress={hide} className={twMerge(toast.closeClassName)}>
-            <Feather name="x" size={18} className={twMerge("text-muted-foreground dark:text-muted-foreground-dark", toast.closeClassName)} />
+            <Feather
+              name="x"
+              size={18}
+              className={twMerge(
+                "text-muted-foreground dark:text-muted-foreground-dark",
+                toast.closeClassName
+              )}
+            />
           </Pressable>
-        </Animated.View>
+        </View>
       )}
     </ToastContext.Provider>
   );

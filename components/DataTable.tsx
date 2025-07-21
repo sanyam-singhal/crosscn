@@ -18,17 +18,25 @@ const TableHeader = React.forwardRef<
 ));
 TableHeader.displayName = 'TableHeader';
 
-const TableBody = React.forwardRef<
-  FlatList,
-  React.ComponentPropsWithoutRef<typeof FlatList>
->(({ className, ...props }, ref) => (
-  <FlatList
-    ref={ref}
-    contentContainerClassName={twMerge('divide-y divide-border', className)}
-    {...props}
-  />
-));
-TableBody.displayName = 'TableBody';
+function TableBodyFn<T>(
+  props: React.ComponentPropsWithoutRef<typeof FlatList<T>>,
+  ref: React.Ref<FlatList<T>>
+) {
+  return (
+    <FlatList<T>
+      ref={ref}
+      contentContainerClassName={twMerge('divide-y divide-border', props.className)}
+      {...props}
+    />
+  );
+}
+
+const TableBody = React.forwardRef(TableBodyFn) as <T>(
+  props: React.ComponentPropsWithoutRef<typeof FlatList<T>> & { ref?: React.Ref<FlatList<T>> }
+) => React.ReactElement;
+
+(TableBody as React.FC).displayName = 'TableBody';
+
 
 const TableFooter = React.forwardRef<
   View,
@@ -48,7 +56,7 @@ const TableRow = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <View
     ref={ref}
-    className={twMerge('flex-row transition-colors hover:bg-muted/50', className)}
+    className={twMerge('flex-row hover:bg-muted/50', className)}
     {...props}
   />
 ));

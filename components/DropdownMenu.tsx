@@ -29,6 +29,7 @@ const DropdownMenu = ({ trigger, items, menuClassName, itemClassName, destructiv
       placement={placement}
       popoverStyle={{ borderRadius: 6 }}
       backgroundStyle={{ opacity: 0 }}
+      animationConfig={{ duration: 0 }}
     >
       <View className={twMerge("w-56 rounded-md border border-border bg-popover p-1 shadow-md", menuClassName)}>
         {items.map((item, index) => (
@@ -36,7 +37,7 @@ const DropdownMenu = ({ trigger, items, menuClassName, itemClassName, destructiv
             key={index}
             onPress={item.onSelect}
             className={twMerge(
-              "flex-row items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground disabled:opacity-50",
+              "flex-row items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground disabled:opacity-50",
               itemClassName,
               item.destructive && twMerge("text-destructive focus:bg-destructive/10", destructiveItemClassName)
             )}

@@ -43,7 +43,7 @@ const BreadcrumbLink = React.forwardRef<
   <Pressable ref={ref} {...props} className={className}>
     <Text
       className={twMerge(
-        'text-sm font-medium text-muted-foreground transition-colors hover:text-foreground',
+        'text-sm font-medium text-muted-foreground hover:text-foreground',
         textClassName
       )}
     >

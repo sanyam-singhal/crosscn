@@ -54,7 +54,7 @@ const AccordionDemo = () => {
             </AccordionTrigger>
             <AccordionContent>
               <Text className="text-muted-foreground">
-                Yes. It&apos;s animated by default, but you can disable it if you prefer.
+                No. Animations are disabled for stability.
               </Text>
             </AccordionContent>
           </AccordionItem>
@@ -93,7 +93,7 @@ const AccordionDemo = () => {
             </AccordionTrigger>
             <AccordionContent>
               <Text className="text-muted-foreground">
-                Yes. It&apos;s animated by default, but you can disable it if you prefer.
+                No. Animations are disabled for stability.
               </Text>
             </AccordionContent>
           </AccordionItem>

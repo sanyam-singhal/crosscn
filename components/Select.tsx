@@ -83,7 +83,7 @@ const Select = ({
       </Pressable>
 
       <RNModal
-        animationType="fade"
+        animationType="none"
         transparent={true}
         visible={open}
         onRequestClose={() => setOpen(false)}

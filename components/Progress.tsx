@@ -1,10 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+
 import { twMerge } from "tailwind-merge";
 
 interface ProgressProps extends React.ComponentPropsWithoutRef<typeof View> {
@@ -15,19 +11,7 @@ interface ProgressProps extends React.ComponentPropsWithoutRef<typeof View> {
 
 const Progress = React.forwardRef<View, ProgressProps>(
   ({ value, max = 100, className, indicatorClassName, ...props }, ref) => {
-    const progress = useSharedValue(0);
-
     const percentage = Math.max(0, Math.min(100, (value / max) * 100));
-
-    React.useEffect(() => {
-      progress.value = withTiming(percentage, { duration: 300 });
-    }, [percentage, progress]);
-
-    const animatedIndicatorStyle = useAnimatedStyle(() => {
-      return {
-        width: `${progress.value}%`,
-      };
-    });
 
     return (
       <View
@@ -42,10 +26,10 @@ const Progress = React.forwardRef<View, ProgressProps>(
         aria-valuenow={value}
         {...props}
       >
-        <Animated.View
-          style={animatedIndicatorStyle}
+        <View
+          style={{ width: `${percentage}%` }}
           className={twMerge(
-            "h-full w-full flex-1 bg-primary",
+            "h-full w-full flex-1 bg-primary transition-none",
             indicatorClassName
           )}
         />

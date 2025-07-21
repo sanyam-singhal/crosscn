@@ -1,11 +1,7 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import { Pressable, View, Text } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+
 
 
 // --- Context ---
@@ -69,68 +65,62 @@ interface RadioGroupItemProps extends React.ComponentPropsWithoutRef<typeof Pres
 const RadioGroupItem = React.forwardRef<
   React.ComponentRef<typeof Pressable>,
   RadioGroupItemProps
->(({ value, label, indicatorClassName, selectedIndicatorClassName, dotClassName, labelClassName, className, ...props }, ref) => {
-  const {
-    value: selectedValue,
-    onValueChange,
-    disabled,
-  } = useRadioGroupContext();
-  const isSelected = selectedValue === value;
-  const itemDisabled = disabled || props.disabled;
+>(
+  (
+    { value, label, indicatorClassName, selectedIndicatorClassName, dotClassName, labelClassName, className, ...props },
+    ref
+  ) => {
+    const {
+      value: selectedValue,
+      onValueChange,
+      disabled,
+    } = useRadioGroupContext();
+    const isSelected = selectedValue === value;
+    const itemDisabled = disabled || props.disabled;
 
-  const scale = useSharedValue(isSelected ? 1 : 0);
-
-  React.useEffect(() => {
-    scale.value = withTiming(isSelected ? 1 : 0, { duration: 150 });
-  }, [isSelected, scale]);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }],
+    const handlePress = () => {
+      if (!itemDisabled) {
+        onValueChange(value);
+      }
     };
-  });
 
-  const handlePress = () => {
-    if (!itemDisabled) {
-      onValueChange(value);
-    }
-  };
-
-  return (
-    <Pressable
-      ref={ref}
-      onPress={handlePress}
-      disabled={itemDisabled}
-      className={twMerge("flex-row items-center gap-3", itemDisabled && "opacity-50", className)}
-      hitSlop={10}
-      role="radio"
-      aria-checked={isSelected}
-      {...props}
-    >
-      <View
-        className={twMerge(
-          "h-5 w-5 rounded-full border-2 justify-center items-center",
-          isSelected ? "border-primary" : "border-muted-foreground/50",
-          itemDisabled && "opacity-50",
-          indicatorClassName,
-          isSelected && selectedIndicatorClassName
-        )}
+    return (
+      <Pressable
+        ref={ref}
+        onPress={handlePress}
+        disabled={itemDisabled}
+        className={twMerge("flex-row items-center gap-3", itemDisabled && "opacity-50", className)}
+        hitSlop={10}
+        role="radio"
+        aria-checked={isSelected}
+        {...props}
       >
-        <Animated.View
-          style={animatedStyle}
-          className={twMerge("h-2.5 w-2.5 rounded-full bg-primary", dotClassName)}
-        />
-      </View>
-      {label && (
-        <Text
-          className={twMerge("text-foreground", itemDisabled && "opacity-50", labelClassName)}
+        <View
+          className={twMerge(
+            "h-5 w-5 rounded-full border-2 justify-center items-center",
+            isSelected ? "border-primary" : "border-muted-foreground/50",
+            itemDisabled && "opacity-50",
+            indicatorClassName,
+            isSelected && selectedIndicatorClassName
+          )}
         >
-          {label}
-        </Text>
-      )}
-    </Pressable>
-  );
-});
+          {isSelected && (
+            <View
+              className={twMerge("h-2.5 w-2.5 rounded-full bg-primary", dotClassName)}
+            />
+          )}
+        </View>
+        {label && (
+          <Text
+            className={twMerge("text-foreground", itemDisabled && "opacity-50", labelClassName)}
+          >
+            {label}
+          </Text>
+        )}
+      </Pressable>
+    );
+  }
+);
 RadioGroupItem.displayName = "RadioGroupItem";
 
 export { RadioGroup, RadioGroupItem };

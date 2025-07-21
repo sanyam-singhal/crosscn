@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
 
 const iconButtonVariants = cva(
-  "items-center justify-center rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none",
+  "items-center justify-center rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none",
   {
     variants: {
       variant: {

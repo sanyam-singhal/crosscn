@@ -65,7 +65,7 @@ const Tooltip = ({
       : { onLongPress: open, onPressOut: close };
 
   return (
-    <Popover isVisible={isVisible} onRequestClose={close}
+    <Popover isVisible={isVisible} onRequestClose={close} animationConfig={{ duration: 0 }}
       from={
         <Pressable {...nativeTriggerProps} style={{ alignSelf: "flex-start" }}>
           {children}

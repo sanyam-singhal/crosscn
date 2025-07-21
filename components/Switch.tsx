@@ -1,12 +1,6 @@
 import React from "react";
-import { Pressable } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  interpolateColor,
-  interpolate,
-} from "react-native-reanimated";
+import { Pressable, View } from "react-native";
+
 import { useColorScheme } from "nativewind";
 import { twMerge } from "tailwind-merge";
 import colors from "tailwindcss/colors";
@@ -27,90 +21,82 @@ interface SwitchProps {
 const Switch = React.forwardRef<
   React.ComponentRef<typeof Pressable>,
   SwitchProps
->(({ checked, onCheckedChange, disabled, size = "default", className, trackClassName, thumbClassName }, ref) => {
-  const { colorScheme } = useColorScheme();
-  const progress = useSharedValue(checked ? 1 : 0);
+>(
+  (
+    { checked, onCheckedChange, disabled, size = "default", className, trackClassName, thumbClassName },
+    ref
+  ) => {
+    const { colorScheme } = useColorScheme();
 
-  React.useEffect(() => {
-    progress.value = withTiming(checked ? 1 : 0, { duration: 200 });
-  }, [checked, progress]);
-
-  const sizeStyles = {
-    sm: { trackWidth: 36, trackHeight: 20, thumbSize: 16 },
-    default: { trackWidth: 44, trackHeight: 24, thumbSize: 20 },
-    lg: { trackWidth: 52, trackHeight: 28, thumbSize: 24 },
-  };
-
-  const { trackWidth, trackHeight, thumbSize } = sizeStyles[size];
-  const thumbMargin = (trackHeight - thumbSize) / 2;
-  const travelDistance = trackWidth - thumbSize - thumbMargin * 2;
-
-  const animatedTrackStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
-      progress.value,
-      [0, 1],
-      [
-        colorScheme === "dark" ? colors.gray[700] : colors.gray[300],
-        colors.blue[600],
-      ]
-    );
-    return {
-      backgroundColor,
+    const sizeStyles = {
+      sm: { trackWidth: 36, trackHeight: 20, thumbSize: 16 },
+      default: { trackWidth: 44, trackHeight: 24, thumbSize: 20 },
+      lg: { trackWidth: 52, trackHeight: 28, thumbSize: 24 },
     };
-  });
 
-  const animatedThumbStyle = useAnimatedStyle(() => {
-    const translateX = interpolate(progress.value, [0, 1], [0, travelDistance]);
-    return {
-      transform: [{ translateX }],
+    const { trackWidth, trackHeight, thumbSize } = sizeStyles[size];
+    const thumbMargin = (trackHeight - thumbSize) / 2;
+
+    const handlePress = () => {
+      if (!disabled) {
+        onCheckedChange(!checked);
+      }
     };
-  });
 
-  const handlePress = () => {
-    if (!disabled) {
-      onCheckedChange(!checked);
-    }
-  };
+    const trackStyle = {
+      backgroundColor: checked
+        ? colors.blue[600]
+        : colorScheme === 'dark'
+        ? colors.gray[700]
+        : colors.gray[300],
+    };
 
-  return (
-    <Pressable
-      ref={ref}
-      onPress={handlePress}
-      disabled={disabled}
-      className={twMerge("justify-center", disabled && "opacity-70", className)}
-      style={{
-        width: trackWidth,
-        height: trackHeight,
-      }}
-      hitSlop={10}
-    >
-      <Animated.View
-        style={[
-          {
-            width: trackWidth,
-            height: trackHeight,
-            borderRadius: trackHeight / 2,
-          },
-          animatedTrackStyle,
-        ]}
-        className={twMerge("justify-center", trackClassName)}
+
+
+    return (
+      <Pressable
+        ref={ref}
+        onPress={handlePress}
+        disabled={disabled}
+        className={twMerge("justify-center", disabled && "opacity-70", className)}
+        style={{
+          width: trackWidth,
+          height: trackHeight,
+        }}
+        hitSlop={10}
       >
-        <Animated.View
+        <View
           style={[
             {
-              width: thumbSize,
-              height: thumbSize,
-              borderRadius: thumbSize / 2,
-              marginLeft: thumbMargin,
+              width: trackWidth,
+              height: trackHeight,
+              borderRadius: trackHeight / 2,
             },
-            animatedThumbStyle,
+            trackStyle,
           ]}
-          className={twMerge("bg-white shadow-sm-native", thumbClassName)}
-        />
-      </Animated.View>
-    </Pressable>
-  );
-});
+          className={twMerge(
+            "justify-center",
+            checked ? "items-end" : "items-start",
+            trackClassName
+          )}
+        >
+          <View
+            style={[
+              {
+                width: thumbSize,
+                height: thumbSize,
+                borderRadius: thumbSize / 2,
+                marginLeft: thumbMargin,
+              },
+
+            ]}
+            className={twMerge("bg-white shadow-sm-native", thumbClassName)}
+          />
+        </View>
+      </Pressable>
+    );
+  }
+);
 
 Switch.displayName = "Switch";
 
