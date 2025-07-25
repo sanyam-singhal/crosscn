@@ -1,23 +1,23 @@
 import React from 'react';
 import { Badge } from '../components/Badge';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/Card';
-import DemoPage from './DemoPage';
-
-const DemoSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <Card className="mb-6">
-    <CardHeader>
-      <CardTitle>{title}</CardTitle>
-    </CardHeader>
-    <CardContent className="flex-row flex-wrap items-center gap-4">{children}</CardContent>
-  </Card>
-);
+import PropsTable from '../components/PropsTable';
+import DemoPage, { DemoSection } from './DemoPage';
 
 const BadgeDemo = () => {
+  const propsData = [
+    { name: 'label', description: 'Text shown inside the badge.' },
+    { name: 'variant', description: '`default` | `secondary` | `destructive` | `outline`.' },
+    { name: 'className', description: 'Tailwind classes for badge container.' },
+  ] as const;
   return (
     <DemoPage
       title="Badge"
       description="Displays a badge or a component that looks like a badge."
     >
+      <DemoSection title="Props & Tailwind classes">
+        <PropsTable items={propsData} />
+      </DemoSection>
+
       <DemoSection title="Variants">
         <Badge label="Default" />
         <Badge label="Secondary" variant="secondary" />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/Card';
 
 interface DemoPageProps {
   title: string;
@@ -24,5 +25,14 @@ const DemoPage = ({ title, description, children, overlay }: DemoPageProps) => {
     </View>
   );
 };
+
+export const DemoSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <Card className="mb-6 border-0 pb-6">
+    <CardHeader>
+      <CardTitle>{title}</CardTitle>
+    </CardHeader>
+    <CardContent>{children}</CardContent>
+  </Card>
+);
 
 export default DemoPage;

@@ -78,7 +78,7 @@ const Sidebar = ({ items, activeHref, ...props }: SidebarProps) => {
                 {React.cloneElement(item.icon as React.ReactElement, {
                   // @ts-ignore
                   className: twMerge(
-                    'text-muted-foreground dark:text-muted-foreground-dark',
+                    'text-foreground dark:text-foreground-dark',
                     props.iconClassName,
                     isActive && twMerge('text-primary dark:text-primary-dark', props.activeIconClassName)
                   ),
@@ -87,7 +87,7 @@ const Sidebar = ({ items, activeHref, ...props }: SidebarProps) => {
               {!isCollapsed && (
                 <Text
                   className={twMerge(
-                    'text-muted-foreground ml-4 font-medium dark:text-muted-foreground-dark',
+                    'text-foreground ml-4 font-medium dark:text-foreground-dark',
                     props.textClassName,
                     isActive && twMerge('text-primary dark:text-primary-dark', props.activeTextClassName)
                   )}

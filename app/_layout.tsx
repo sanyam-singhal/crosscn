@@ -17,6 +17,7 @@ SplashScreen.preventAutoHideAsync();
 
 const navItems = [
   { name: 'Accordion', href: '/accordion', icon: <Feather name="list" size={20} /> },
+  { name: 'Alert Dialog', href: '/alert-dialog', icon: <Feather name="alert-circle" size={20} /> },
   { name: 'Avatar', href: '/avatar', icon: <Feather name="user" size={20} /> },
   { name: 'Badge', href: '/badge', icon: <Feather name="tag" size={20} /> },
     { name: 'Buttons', href: '/buttons', icon: <Feather name="figma" size={20} /> },
@@ -48,7 +49,6 @@ const navItems = [
   { name: 'Tabs', href: '/tabs-demo', icon: <Feather name="folder" size={20} /> },
   { name: 'Toast', href: '/toast', icon: <Feather name="bell" size={20} /> },
   { name: 'Tooltip', href: '/tooltip', icon: <Feather name="message-circle" size={20} /> },
-  { name: 'Alert Dialog', href: '/alert-dialog', icon: <Feather name="alert-circle" size={20} /> },
 ];
 
 export default function RootLayout() {
@@ -85,12 +85,9 @@ export default function RootLayout() {
                 <Stack.Screen name="card" />
                                 <Stack.Screen name="inputs" />
                                 <Stack.Screen name="marquee" />
-                                <Stack.Screen name="menubar" />
                                 <Stack.Screen name="modal" />
                                 <Stack.Screen name="navigation-menu" />
                                 <Stack.Screen name="pagination" />
-
-                                <Stack.Screen name="resizable" />
                                 <Stack.Screen name="scroll-area" />
                                 <Stack.Screen name="select" />
                 <Stack.Screen name="textarea" />

@@ -1,24 +1,26 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/Avatar';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/Card';
-import DemoPage from './DemoPage';
-
-const DemoSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <Card className="mb-6">
-    <CardHeader>
-      <CardTitle>{title}</CardTitle>
-    </CardHeader>
-    <CardContent className="flex-row flex-wrap items-center gap-4">{children}</CardContent>
-  </Card>
-);
+import PropsTable from '../components/PropsTable';
+import DemoPage, { DemoSection } from './DemoPage';
 
 const AvatarDemo = () => {
+  const propsData = [
+    { name: 'Avatar.className', description: 'Tailwind classes applied to outer wrapper.' },
+    { name: 'AvatarImage.source', description: 'Image source object or URI.' },
+    { name: 'AvatarImage.className', description: 'Tailwind classes for image.' },
+    { name: 'AvatarFallback.className', description: 'Tailwind classes for fallback circle.' },
+    { name: 'AvatarFallback.children', description: 'ReactNode shown when image fails.' },
+  ] as const;
   return (
     <DemoPage
       title="Avatar"
       description="An image element with a fallback for representing a user."
     >
+      <DemoSection title="Props & Tailwind classes">
+        <PropsTable items={propsData} />
+      </DemoSection>
+
       <DemoSection title="Examples">
         <Avatar>
           <AvatarImage source={{ uri: 'https://github.com/shadcn.png' }} />

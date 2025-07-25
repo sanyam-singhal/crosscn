@@ -1,25 +1,28 @@
 import React from 'react';
 import { Button } from '../components/Button';
 import { IconButton } from '../components/IconButton';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/Card';
+import PropsTable from '../components/PropsTable';
 import { Feather } from '@expo/vector-icons';
-import DemoPage from './DemoPage';
-
-const DemoSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <Card className="mb-6">
-    <CardHeader>
-      <CardTitle>{title}</CardTitle>
-    </CardHeader>
-    <CardContent className="flex-row flex-wrap items-center gap-2">{children}</CardContent>
-  </Card>
-);
+import DemoPage, { DemoSection } from './DemoPage';
 
 const ButtonsDemo = () => {
+  const propsData = [
+    { name: 'label', description: 'Text content of the button.' },
+    { name: 'variant', description: '`default` | `destructive` | `outline` | `secondary` | `ghost` | `link`.' },
+    { name: 'size', description: '`default` | `sm` | `lg`.' },
+    { name: 'loading', description: 'Shows ActivityIndicator when true.' },
+    { name: 'className', description: 'Tailwind classes for Pressable container.' },
+    { name: 'textClassName', description: 'Tailwind classes for inner Text.' },
+  ] as const;
   return (
     <DemoPage
       title="Buttons"
       description="Displays a button or a component that looks like a button."
     >
+      <DemoSection title="Props & Tailwind classes">
+        <PropsTable items={propsData} />
+      </DemoSection>
+
       <DemoSection title="Variants">
         <Button label="Default" />
         <Button label="Outline" variant="outline" />

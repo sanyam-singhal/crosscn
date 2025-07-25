@@ -1,27 +1,30 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../components/Accordion';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/Card';
-import DemoPage from './DemoPage';
-
-const DemoSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <Card className="mb-6">
-    <CardHeader>
-      <CardTitle>{title}</CardTitle>
-    </CardHeader>
-    <CardContent>{children}</CardContent>
-  </Card>
-);
+import PropsTable from '../components/PropsTable';
+import DemoPage, { DemoSection } from './DemoPage';
 
 const AccordionDemo = () => {
   const [singleValue, setSingleValue] = React.useState<string | null>('item-1');
   const [multipleValue, setMultipleValue] = React.useState<string[]>(['item-1']);
+
+  const propsData = [
+    { name: 'value', description: 'Current selected value(s). String or array.' },
+    { name: 'onValueChange', description: 'Callback invoked when selection changes.' },
+    { name: 'type', description: '`single` or `multiple` accordion behavior.' },
+    { name: 'AccordionItem.value', description: 'Unique identifier for each item.' },
+    { name: 'className', description: 'Tailwind / NativeWind classes to override styling.' },
+  ] as const;
 
   return (
     <DemoPage
       title="Accordion"
       description="A vertically stacked set of interactive headings that each reveal a section of content."
     >
+      <DemoSection title="Props & Tailwind classes">
+        <PropsTable items={propsData} />
+      </DemoSection>
+
       <DemoSection title="Single (Default)">
         <Accordion
           type="single"

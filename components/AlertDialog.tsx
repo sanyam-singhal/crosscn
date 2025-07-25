@@ -18,10 +18,8 @@ interface AlertDialogProps {
   cancelText?: string;
   onConfirm: () => void;
   onCancel?: () => void;
-  /**
-   * Tailwind / NativeWind utility classes applied to the dialog container (ModalContent).
-   */
-  className?: string;
+  /** Tailwind / NativeWind classes applied to the dialog container (ModalContent). */
+  contentClassName?: string;
   /**
    * Extra props forwarded to the confirm button (e.g. className, disabled, loading).
    */
@@ -41,7 +39,7 @@ const AlertDialog = ({
   cancelText = "Cancel",
   onConfirm,
   onCancel,
-  className,
+  contentClassName,
   confirmButtonProps,
   cancelButtonProps,
 }: AlertDialogProps) => {
@@ -59,7 +57,7 @@ const AlertDialog = ({
 
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
-      <ModalContent className={className}>
+      <ModalContent className={contentClassName}>
         <ModalHeader>
           <ModalTitle>{title}</ModalTitle>
           <ModalDescription>{description}</ModalDescription>
