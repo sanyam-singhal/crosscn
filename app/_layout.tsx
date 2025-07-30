@@ -25,7 +25,6 @@ const navItems = [
   { name: 'Card', href: '/card', icon: <Feather name="credit-card" size={20} /> },
   { name: 'Breadcrumb', href: '/breadcrumb', icon: <Feather name="chevron-right" size={20} /> },
 
-  { name: 'Chart', href: '/chart', icon: <Feather name="bar-chart-2" size={20} /> },
   { name: 'Checkbox', href: '/checkbox', icon: <Feather name="check-square" size={20} /> },
   { name: 'Collapsible', href: '/collapsible', icon: <Feather name="chevrons-down" size={20} /> },
     { name: 'Data Table', href: '/data-table', icon: <Feather name="grid" size={20} /> },
@@ -94,8 +93,6 @@ export default function RootLayout() {
                 <Stack.Screen name="checkbox" />
                 <Stack.Screen name="toast" />
                 <Stack.Screen name="breadcrumb" />
-
-                <Stack.Screen name="chart" />
                 <Stack.Screen name="dropdown-menu" />
                 <Stack.Screen name="radio-group" />
                 <Stack.Screen name="sheet" />

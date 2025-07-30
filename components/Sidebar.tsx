@@ -61,7 +61,7 @@ const Sidebar = ({ items, activeHref, ...props }: SidebarProps) => {
         </Pressable>
       </View>
 
-      <ScrollView className="flex-1" contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
         {items.map((item) => {
           const isActive = activeHref === item.href;
           return (
